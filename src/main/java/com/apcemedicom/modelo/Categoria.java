@@ -1,6 +1,5 @@
 package com.apcemedicom.modelo;
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "categorias")

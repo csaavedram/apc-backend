@@ -1,0 +1,87 @@
+# ==========================
+# Ignorar archivos compilados
+# ==========================
+*.class
+
+# ==========================
+# Archivos de log
+# ==========================
+*.log
+spring.log
+
+# ==========================
+# Archivos empaquetados
+# ==========================
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# ==========================
+# Archivos de error de la JVM
+# ==========================
+hs_err_pid*
+
+# ==========================
+# Maven
+# ==========================
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# ==========================
+# Gradle
+# ==========================
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# ==========================
+# Archivos y directorios de IDEs
+# ==========================
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Spring Tool Suite (STS)
+.apt_generated/
+.factorypath
+
+# Visual Studio Code
+.vscode/
+
+# ==========================
+# Archivos del sistema operativo
+# ==========================
+# Archivos de Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Archivos de macOS
+.DS_Store
+
+# ==========================
+# Archivos de configuración
+# ==========================
+src/main/resources/application.properties
+
+# Ignorar archivos generados
+target/
+*.jar
