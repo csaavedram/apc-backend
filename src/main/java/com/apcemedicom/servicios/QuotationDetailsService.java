@@ -1,5 +1,6 @@
 package com.apcemedicom.servicios;
 
+import com.apcemedicom.modelo.Quotation;
 import com.apcemedicom.modelo.QuotationDetails;
 
 import java.util.List;
@@ -11,5 +12,5 @@ public interface QuotationDetailsService {
     Set<QuotationDetails> obtenerDetallesCotizaciones();
     QuotationDetails obtenerDetalleCotizacion(Long quotationDetailsId);
     void eliminarDetalleCotizacion(Long quotationDetailsId);
-    List<QuotationDetails> obtenerDetallesCotizacionPorCotizacion(Long quotationId);
+    List<QuotationDetails> obtenerDetallesCotizacionPorCotizacion(Quotation quotationId);
 }

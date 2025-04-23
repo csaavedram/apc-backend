@@ -13,4 +13,6 @@ public interface UsuarioService {
     Set<Usuario> obtenerUsuarios();
 
     public void eliminarUsuario(Long usuarioId);
+
+    public Usuario obtenerUsuarioPorNumeroDocumento(String numeroDocumento);
 }

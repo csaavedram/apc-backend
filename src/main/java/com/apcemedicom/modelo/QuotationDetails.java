@@ -14,6 +14,8 @@ public class QuotationDetails {
   private Double totalPrice;
   @Column(columnDefinition = "decimal(10,2)")
   private Double unitPrice;
+  @Column(columnDefinition = "decimal(10,2)")
+  private Double newPrice;
   @ManyToOne
   @JoinColumn(name = "productoId")
   private Producto product;
@@ -22,6 +24,8 @@ public class QuotationDetails {
   private Quotation quotation;
   @Column(name = "createdAt")
   private java.util.Date createdAt;
+  
+  private String serviceType; 
   
   public QuotationDetails() { }
   public Long getQuotationdetailsId() { return quotationdetailsId; }
@@ -32,6 +36,8 @@ public class QuotationDetails {
   public void setTotalPrice(Double totalPrice) { this.totalPrice = totalPrice; }
   public Double getUnitPrice() { return unitPrice; }
   public void setUnitPrice(Double unitPrice) { this.unitPrice = unitPrice; }
+  public Double getNewPrice() { return newPrice; }
+  public void setNewPrice(Double newPrice) { this.newPrice = newPrice; }
   public Producto getProduct() {
     return product;
   }
@@ -46,4 +52,10 @@ public class QuotationDetails {
   }
   public Date getCreatedAt() { return createdAt; }
   public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
+  public String getServiceType() {
+    return serviceType;
+  }
+  public void setServiceType(String serviceType) {
+    this.serviceType = serviceType;
+  }
 }

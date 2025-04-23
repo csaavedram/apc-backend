@@ -1,5 +1,6 @@
 package com.apcemedicom.controladores;
 
+import com.apcemedicom.modelo.Quotation;
 import com.apcemedicom.modelo.QuotationDetails;
 import com.apcemedicom.servicios.QuotationDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class QuotationDetailsController {
     quotationDetailsService.eliminarDetalleCotizacion(quotationDetailsId);
   }
   @GetMapping("/quotation/{quotationId}")
-  public ResponseEntity<List<QuotationDetails>> listarQuotationDetailsPorQuotation(@PathVariable("quotationId") Long quotationId) {
+  public ResponseEntity<List<QuotationDetails>> listarQuotationDetailsPorQuotation(@PathVariable("quotationId") Quotation quotationId) {
     List<QuotationDetails> quotationDetails = quotationDetailsService.obtenerDetallesCotizacionPorCotizacion(quotationId);
     return ResponseEntity.ok(quotationDetails);
   }

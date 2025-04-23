@@ -1,5 +1,6 @@
 package com.apcemedicom.servicios.impl;
 
+import com.apcemedicom.modelo.Quotation;
 import com.apcemedicom.modelo.QuotationDetails;
 import com.apcemedicom.repositorios.QuotationDetailsRepository;
 import com.apcemedicom.servicios.QuotationDetailsService;
@@ -30,7 +31,7 @@ public class QuotationDetailsServiceImpl implements QuotationDetailsService {
     quotationDetailsRepository.delete(quotationDetails);
   }
   @Override
-  public List<QuotationDetails> obtenerDetallesCotizacionPorCotizacion(Long quotationId) {
+  public List<QuotationDetails> obtenerDetallesCotizacionPorCotizacion(Quotation quotationId) {
     return quotationDetailsRepository.findQuotationDetailsByQuotation(quotationId);
   }
 }

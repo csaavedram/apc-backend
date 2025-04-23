@@ -11,13 +11,13 @@ public class Quotation {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long quotationId;
   
-  public enum Divisa { SOLES, DOLAR }
+  public enum Divisa { Soles, Dolares }
   
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
   private Divisa divisa;
   
-  public enum TipoPago { CONTADO, CREDITO }
+  public enum TipoPago { Contado, Credito }
   
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
@@ -33,7 +33,7 @@ public class Quotation {
   private Double total;
   
   @ManyToOne
-  @JoinColumn(name = "userId")
+  @JoinColumn(name = "id")
   private Usuario user;
   
   public Quotation() { }

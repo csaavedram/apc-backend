@@ -42,6 +42,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public Usuario obtenerUsuarioPorNumeroDocumento(String numeroDocumento) {
+        return usuarioRepository.findByNumeroDocumento(numeroDocumento);
+    }
+
+    @Override
     public Set<Usuario> obtenerUsuarios() {
         return new LinkedHashSet<>(usuarioRepository.findAll());
     }

@@ -51,6 +51,11 @@ public class UsuarioController {
         return usuarioService.obtenerUsuario(username);
     }
 
+    @GetMapping("/documento/{numeroDocumento}")
+    public Usuario obtenerUsuarioPorNumeroDocumento(@PathVariable("numeroDocumento") String numeroDocumento) {
+        return usuarioService.obtenerUsuarioPorNumeroDocumento(numeroDocumento);
+    }
+
     @DeleteMapping("/{usuarioId}")
     public void eliminarUsuario(@PathVariable("usuarioId") Long usuarioId){
         usuarioService.eliminarUsuario(usuarioId);
