@@ -36,6 +36,9 @@ public class Quotation {
   @JoinColumn(name = "id")
   private Usuario user;
   
+  @Column(nullable = false)
+  private String estado;
+  
   public Quotation() { }
   
   public Long getQuotationId() { return quotationId; }
@@ -58,4 +61,12 @@ public class Quotation {
   
   public Usuario getUser() { return user; }
   public void setUser(Usuario user) { this.user = user; }
+
+  public String getEstado() {
+    return estado;
+  }
+
+  public void setEstado(String estado) {
+    this.estado = estado;
+  }
 }

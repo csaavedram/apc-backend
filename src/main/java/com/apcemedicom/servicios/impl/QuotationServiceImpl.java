@@ -33,5 +33,11 @@ public class QuotationServiceImpl implements QuotationService {
   public List<Quotation> obtenerCotizacionesPorUsuario(Long userId) {
     return quotationRepository.findByUserId(userId);
   }
-  
+  @Override
+  public void cancelarCotizacion(Long quotationId) {
+    quotationRepository.findById(quotationId).ifPresent(quotation -> {
+        quotation.setEstado("Cancelado");
+        quotationRepository.save(quotation);
+    });
+  }
 }

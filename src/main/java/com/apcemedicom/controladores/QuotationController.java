@@ -39,4 +39,10 @@ public class QuotationController {
     List<Quotation> quotations = quotationService.obtenerCotizacionesPorUsuario(id);
     return ResponseEntity.ok(quotations);
   }
+  @PatchMapping("/cancel/{quotationId}")
+  public ResponseEntity<Quotation> cancelarCotizacion(@PathVariable("quotationId") Long quotationId) {
+    quotationService.cancelarCotizacion(quotationId);
+    Quotation quotation = quotationService.obtenerCotizacion(quotationId);
+    return ResponseEntity.ok(quotation);
+  }
 }
