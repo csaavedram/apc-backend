@@ -42,8 +42,13 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Usuario obtenerUsuarioPorNumeroDocumento(String numeroDocumento) {
-        return usuarioRepository.findByNumeroDocumento(numeroDocumento);
+    public Usuario obtenerUsuarioPorRuc(String ruc) {
+        return usuarioRepository.findByRuc(ruc);
+    }
+
+    @Override
+    public Usuario obtenerUsuarioPorRazonSocial(String razonSocial) {
+        return usuarioRepository.findByRazonSocial(razonSocial);
     }
 
     @Override

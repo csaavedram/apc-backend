@@ -33,4 +33,5 @@ public class QuotationServiceImpl implements QuotationService {
   public List<Quotation> obtenerCotizacionesPorUsuario(Long userId) {
     return quotationRepository.findByUserId(userId);
   }
+  
 }

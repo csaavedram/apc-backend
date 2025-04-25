@@ -25,8 +25,8 @@ public class Usuario implements UserDetails {
     private String telefono;
     private boolean enabled = true;
     private String perfil;
-    private String tipoDocumento;
-    private String numeroDocumento;
+    private String tipoUsuario; 
+    private String ruc; 
     private String razonSocial;
 
     @Column(name = "createdAt")
@@ -40,7 +40,7 @@ public class Usuario implements UserDetails {
 
     }
 
-    public Usuario(String username, String password, String nombre, String apellido, String email, String telefono, boolean enabled, String perfil, String tipoDocumento, String numeroDocumento, String razonSocial, java.util.Date createdAt) {
+    public Usuario(String username, String password, String nombre, String apellido, String email, String telefono, boolean enabled, String perfil, String tipoUsuario, String ruc, String razonSocial, java.util.Date createdAt) {
         this.username = username;
         this.password = password;
         this.nombre = nombre;
@@ -49,8 +49,8 @@ public class Usuario implements UserDetails {
         this.telefono = telefono;
         this.enabled = enabled;
         this.perfil = perfil;
-        this.tipoDocumento = tipoDocumento;
-        this.numeroDocumento = numeroDocumento;
+        this.tipoUsuario = tipoUsuario;
+        this.ruc = ruc;
         this.razonSocial = razonSocial;
         this.createdAt = createdAt;
     }
@@ -151,20 +151,20 @@ public class Usuario implements UserDetails {
         this.perfil = perfil;
     }
 
-    public String getTipoDocumento() {
-        return tipoDocumento;
+    public String getTipoUsuario() {
+        return tipoUsuario;
     }
 
-    public void setTipoDocumento(String tipoDocumento) {
-        this.tipoDocumento = tipoDocumento;
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
 
-    public String getNumeroDocumento() {
-        return numeroDocumento;
+    public String getRuc() {
+        return ruc;
     }
 
-    public void setNumeroDocumento(String numeroDocumento) {
-        this.numeroDocumento = numeroDocumento;
+    public void setRuc(String ruc) {
+        this.ruc = ruc;
     }
 
     public String getRazonSocial() {
