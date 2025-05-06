@@ -38,6 +38,10 @@ public class Quotation {
   
   @Column(nullable = false)
   private String estado;
+
+  @Column(name = "createdAt")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date createdAt;
   
   public Quotation() { }
   
@@ -62,11 +66,9 @@ public class Quotation {
   public Usuario getUser() { return user; }
   public void setUser(Usuario user) { this.user = user; }
 
-  public String getEstado() {
-    return estado;
-  }
+  public String getEstado() { return estado; }
+  public void setEstado(String estado) { this.estado = estado; }
 
-  public void setEstado(String estado) {
-    this.estado = estado;
-  }
+  public Date getCreatedAt() { return createdAt; }
+  public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
 }
