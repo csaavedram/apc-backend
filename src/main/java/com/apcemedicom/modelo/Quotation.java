@@ -40,8 +40,7 @@ public class Quotation {
   private String estado;
 
   @Column(name = "createdAt")
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date createdAt;
+  private java.util.Date createdAt;
   
   public Quotation() { }
   

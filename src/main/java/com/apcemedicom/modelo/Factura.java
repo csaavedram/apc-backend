@@ -1,6 +1,7 @@
 package com.apcemedicom.modelo;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "factura")
@@ -28,6 +29,9 @@ public class Factura {
   @ManyToOne
   @JoinColumn(name = "id")
   private Usuario user;
+  
+  @Column(name = "fechaEmision")
+  private java.util.Date fechaEmision;
 
   public Factura() { }
 
@@ -45,4 +49,7 @@ public class Factura {
 
   public Usuario getUser() { return user; }
   public void setUser(Usuario user) { this.user = user; }
+
+  public Date getFechaEmision() { return fechaEmision; }
+  public void setFechaEmision(Date fechaEmision) { this.fechaEmision = fechaEmision; }
 }
