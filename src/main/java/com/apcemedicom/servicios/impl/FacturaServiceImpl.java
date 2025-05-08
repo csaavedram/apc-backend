@@ -25,4 +25,16 @@ public class FacturaServiceImpl implements FacturaService {
   public List<Factura> obtenerFacturasPorUsuario(Long userId) {
     return facturaRepository.findByUserId(userId);
   }
+  @Override
+  public void anularFactura(Long facturaId) {
+    facturaRepository.findById(facturaId).ifPresent(factura -> {
+      factura.setEstado("Anulada");
+      facturaRepository.save(factura);
+    });
+  }
+  @Override
+  public Factura obtenerFacturaPorCodigo(String codigo) {
+    return facturaRepository.findByCodigo(codigo)
+        .orElseThrow(() -> new RuntimeException("Factura no encontrada con el código: " + codigo));
+  }
 }

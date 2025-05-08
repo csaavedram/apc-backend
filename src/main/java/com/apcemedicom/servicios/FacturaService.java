@@ -10,4 +10,6 @@ public interface FacturaService {
   Set<Factura> obtenerFacturas();
   Factura obtenerFactura(Long facturaId);
   List<Factura> obtenerFacturasPorUsuario(Long userId);
+  void anularFactura(Long facturaId);
+  Factura obtenerFacturaPorCodigo(String codigo);
 }

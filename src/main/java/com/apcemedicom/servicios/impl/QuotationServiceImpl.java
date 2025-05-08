@@ -40,4 +40,9 @@ public class QuotationServiceImpl implements QuotationService {
         quotationRepository.save(quotation);
     });
   }
+  @Override
+  public Quotation obtenerCotizacionPorCodigo(String codigo) {
+    return quotationRepository.findByCodigo(codigo)
+        .orElseThrow(() -> new RuntimeException("Cotización no encontrada con el código: " + codigo));
+  }
 }

@@ -45,4 +45,9 @@ public class QuotationController {
     Quotation quotation = quotationService.obtenerCotizacion(quotationId);
     return ResponseEntity.ok(quotation);
   }
+  @GetMapping("/codigo/{codigo}")
+  public ResponseEntity<Quotation> obtenerCotizacionPorCodigo(@PathVariable("codigo") String codigo) {
+    Quotation quotation = quotationService.obtenerCotizacionPorCodigo(codigo);
+    return ResponseEntity.ok(quotation);
+  }
 }

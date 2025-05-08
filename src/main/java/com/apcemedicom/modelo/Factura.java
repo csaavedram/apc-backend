@@ -33,6 +33,27 @@ public class Factura {
   @Column(name = "fechaEmision")
   private java.util.Date fechaEmision;
 
+  @Column(name = "codigo", unique = true)
+  private String codigo;
+
+  @Column(name = "estado", nullable = false)
+  private String estado;
+
+  @PrePersist
+  private void generarCodigoTemporal() {
+    if (this.codigo == null) {
+      int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+      this.codigo = "TEMP-" + year; 
+    }
+  }
+
+  @PostPersist
+  private void actualizarCodigo() {
+    if (this.codigo.startsWith("TEMP-")) {
+      this.codigo = "E001-00" + this.facturaId;
+    }
+  }
+
   public Factura() { }
 
   public Long getFacturaId() { return facturaId; }
@@ -52,4 +73,20 @@ public class Factura {
 
   public Date getFechaEmision() { return fechaEmision; }
   public void setFechaEmision(Date fechaEmision) { this.fechaEmision = fechaEmision; }
+
+  public String getCodigo() {
+    return codigo;
+  }
+
+  public void setCodigo(String codigo) {
+    this.codigo = codigo;
+  }
+
+  public String getEstado() {
+    return estado;
+  }
+
+  public void setEstado(String estado) {
+    this.estado = estado;
+  }
 }
