@@ -51,6 +51,16 @@ public class UsuarioController {
         return usuarioService.obtenerUsuario(username);
     }
 
+    @GetMapping("/ruc/{ruc}")
+    public Usuario obtenerUsuarioPorRuc(@PathVariable("ruc") String ruc) {
+        return usuarioService.obtenerUsuarioPorRuc(ruc);
+    }
+
+    @GetMapping("/razonSocial/{razonSocial}")
+    public Usuario obtenerUsuarioPorRazonSocial(@PathVariable("razonSocial") String razonSocial) {
+        return usuarioService.obtenerUsuarioPorRazonSocial(razonSocial);
+    }
+
     @DeleteMapping("/{usuarioId}")
     public void eliminarUsuario(@PathVariable("usuarioId") Long usuarioId){
         usuarioService.eliminarUsuario(usuarioId);

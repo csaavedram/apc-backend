@@ -1,0 +1,13 @@
+package com.apcemedicom.servicios;
+
+import com.apcemedicom.modelo.Factura;
+
+import java.util.List;
+import java.util.Set;
+
+public interface FacturaService {
+  Factura agregarFactura(Factura factura);
+  Set<Factura> obtenerFacturas();
+  Factura obtenerFactura(Long facturaId);
+  List<Factura> obtenerFacturasPorUsuario(Long userId);
+}

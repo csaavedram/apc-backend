@@ -1,6 +1,0 @@
-projectKey=com.sistema.examen:elsaval-backend
-serverUrl=http://localhost:9000
-serverVersion=10.5.1.90531
-dashboardUrl=http://localhost:9000/dashboard?id=com.sistema.examen%3Aelsaval-backend
-ceTaskId=b379c483-0748-4367-a525-c21c5a969b82
-ceTaskUrl=http://localhost:9000/api/ce/task?id=b379c483-0748-4367-a525-c21c5a969b82

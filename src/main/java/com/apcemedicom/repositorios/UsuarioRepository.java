@@ -7,4 +7,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario,Long> {
 
     public Usuario findByUsername(String username);
 
+    public Usuario findByRuc(String ruc);
+
+    public Usuario findByRazonSocial(String razonSocial);
+
 }

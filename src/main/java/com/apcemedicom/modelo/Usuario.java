@@ -25,6 +25,12 @@ public class Usuario implements UserDetails {
     private String telefono;
     private boolean enabled = true;
     private String perfil;
+    private String tipoUsuario; 
+    private String ruc; 
+    private String razonSocial;
+
+    @Column(name = "createdAt")
+    private java.util.Date createdAt;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "usuario")
     @JsonIgnore
@@ -34,8 +40,7 @@ public class Usuario implements UserDetails {
 
     }
 
-    public Usuario(Long id, String username, String password, String nombre, String apellido, String email, String telefono, boolean enabled, String perfil) {
-        this.id = id;
+    public Usuario(String username, String password, String nombre, String apellido, String email, String telefono, boolean enabled, String perfil, String tipoUsuario, String ruc, String razonSocial, java.util.Date createdAt) {
         this.username = username;
         this.password = password;
         this.nombre = nombre;
@@ -44,6 +49,10 @@ public class Usuario implements UserDetails {
         this.telefono = telefono;
         this.enabled = enabled;
         this.perfil = perfil;
+        this.tipoUsuario = tipoUsuario;
+        this.ruc = ruc;
+        this.razonSocial = razonSocial;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -140,6 +149,38 @@ public class Usuario implements UserDetails {
 
     public void setPerfil(String perfil) {
         this.perfil = perfil;
+    }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
+
+    public String getRuc() {
+        return ruc;
+    }
+
+    public void setRuc(String ruc) {
+        this.ruc = ruc;
+    }
+
+    public String getRazonSocial() {
+        return razonSocial;
+    }
+
+    public void setRazonSocial(String razonSocial) {
+        this.razonSocial = razonSocial;
+    }
+
+    public java.util.Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(java.util.Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Set<UsuarioRol> getUsuarioRoles() {

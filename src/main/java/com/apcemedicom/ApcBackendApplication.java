@@ -5,7 +5,6 @@ import com.apcemedicom.modelo.Rol;
 import com.apcemedicom.modelo.Usuario;
 import com.apcemedicom.modelo.UsuarioRol;
 import com.apcemedicom.servicios.UsuarioService;
-import com.apcemedicom.servicios.EstadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,8 +19,6 @@ public class ApcBackendApplication implements CommandLineRunner {
 
 	@Autowired
 	private UsuarioService usuarioService;
-	@Autowired
-	private EstadoService estadoService;
 
 	@Autowired
 	public BCryptPasswordEncoder bCryptPasswordEncoder;
