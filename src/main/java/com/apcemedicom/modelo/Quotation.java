@@ -41,6 +41,25 @@ public class Quotation {
 
   @Column(name = "createdAt")
   private java.util.Date createdAt;
+
+  @Column(name = "codigo", unique = true)
+  private String codigo;
+
+  @PrePersist
+  private void generarCodigo() {
+    if (this.codigo == null) {
+      int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+      this.codigo = "TEMP-" + year; 
+    }
+  }
+
+  @PostPersist
+  private void actualizarCodigo() {
+    if (this.codigo.startsWith("TEMP-")) {
+      int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+      this.codigo = this.quotationId + "-" + year;
+    }
+  }
   
   public Quotation() { }
   
@@ -70,4 +89,12 @@ public class Quotation {
 
   public Date getCreatedAt() { return createdAt; }
   public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
+
+  public String getCodigo() {
+    return codigo;
+  }
+
+  public void setCodigo(String codigo) {
+    this.codigo = codigo;
+  }
 }

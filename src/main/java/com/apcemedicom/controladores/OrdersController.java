@@ -38,4 +38,10 @@ public class OrdersController {
         List<Orders> orders = ordersService.obtenerOrdersPorUsuario(id);
         return ResponseEntity.ok(orders);
     }
+
+    @PatchMapping("/cambiar-estado/{orderId}")
+    public ResponseEntity<?> cambiarEstadoOrder(@PathVariable("orderId") Long orderId) {
+        ordersService.cambiarEstadoOrder(orderId);
+        return ResponseEntity.ok("Estado de la orden actualizado exitosamente");
+    }
 }

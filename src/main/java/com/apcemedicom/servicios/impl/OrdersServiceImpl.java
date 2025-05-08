@@ -33,4 +33,12 @@ public class OrdersServiceImpl implements OrdersService {
     public List<Orders> obtenerOrdersPorUsuario(Long id) {
         return ordersRepository.findByUserId(id);
     }
+
+    @Override
+    public void cambiarEstadoOrder(Long ordersId) {
+        ordersRepository.findById(ordersId).ifPresent(order -> {
+            order.setStatus("Pagado");
+            ordersRepository.save(order);
+        });
+    }
 }

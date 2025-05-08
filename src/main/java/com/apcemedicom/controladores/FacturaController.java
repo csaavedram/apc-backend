@@ -32,4 +32,14 @@ public class FacturaController {
     List<Factura> facturas = facturaService.obtenerFacturasPorUsuario(id);
     return ResponseEntity.ok(facturas);
   }
+  @PatchMapping("/anular/{facturaId}")
+  public ResponseEntity<?> anularFactura(@PathVariable("facturaId") Long facturaId) {
+    facturaService.anularFactura(facturaId);
+    return ResponseEntity.ok("Factura anulada exitosamente");
+  }
+  @GetMapping("/codigo/{codigo}")
+  public ResponseEntity<Factura> obtenerFacturaPorCodigo(@PathVariable("codigo") String codigo) {
+    Factura factura = facturaService.obtenerFacturaPorCodigo(codigo);
+    return ResponseEntity.ok(factura);
+  }
 }

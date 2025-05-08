@@ -11,4 +11,5 @@ public interface OrdersService {
     Orders obtenerOrder(Long ordersId);
     void eliminarOrder(Long ordersId);
     List<Orders> obtenerOrdersPorUsuario(Long id);
+    void cambiarEstadoOrder(Long ordersId);
 }

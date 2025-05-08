@@ -13,4 +13,5 @@ public interface QuotationService {
   void eliminarCotizacion(Long quotationId);
   List<Quotation> obtenerCotizacionesPorUsuario(Long userId);
   void cancelarCotizacion(Long quotationId);
+  Quotation obtenerCotizacionPorCodigo(String codigo);
 }
