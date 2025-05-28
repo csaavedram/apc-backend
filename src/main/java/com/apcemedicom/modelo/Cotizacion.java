@@ -4,12 +4,12 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "quotation")
-public class Quotation {
+@Table(name = "cotizacion")
+public class Cotizacion {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long quotationId;
+  private Long cotizacionId;
   
   public enum Divisa { Soles, Dolares }
   
@@ -57,44 +57,30 @@ public class Quotation {
   private void actualizarCodigo() {
     if (this.codigo.startsWith("TEMP-")) {
       int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
-      this.codigo = this.quotationId + "-" + year;
+      this.codigo = this.cotizacionId + "-" + year;
     }
   }
   
-  public Quotation() { }
+  public Cotizacion() { }
   
-  public Long getQuotationId() { return quotationId; }
-  public void setQuotationId(Long quotationId) { this.quotationId = quotationId; }
-  
+  public Long getCotizacionId() { return cotizacionId; }
+  public void setCotizacionId(Long cotizacionId) { this.cotizacionId = cotizacionId; }
   public Divisa getDivisa() { return divisa; }
   public void setDivisa(Divisa divisa) { this.divisa = divisa; }
-  
   public TipoPago getTipoPago() { return tipoPago; }
   public void setTipoPago(TipoPago tipoPago) { this.tipoPago = tipoPago; }
-  
   public Date getPlazoEntrega() { return plazoEntrega; }
   public void setPlazoEntrega(Date plazoEntrega) { this.plazoEntrega = plazoEntrega; }
-  
   public Date getValidezOferta() { return validezOferta; }
   public void setValidezOferta(Date validezOferta) { this.validezOferta = validezOferta; }
-  
   public Double getTotal() { return total; }
   public void setTotal(Double total) { this.total = total; }
-  
   public Usuario getUser() { return user; }
   public void setUser(Usuario user) { this.user = user; }
-
   public String getEstado() { return estado; }
   public void setEstado(String estado) { this.estado = estado; }
-
   public Date getCreatedAt() { return createdAt; }
   public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
-
-  public String getCodigo() {
-    return codigo;
-  }
-
-  public void setCodigo(String codigo) {
-    this.codigo = codigo;
-  }
+  public String getCodigo() { return codigo; }
+  public void setCodigo(String codigo) { this.codigo = codigo; }
 }
