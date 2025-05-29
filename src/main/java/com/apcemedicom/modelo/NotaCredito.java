@@ -49,7 +49,7 @@ public class NotaCredito {
   @PostPersist
   private void actualizarCodigo() {
     if (this.codigo.startsWith("TEMP-")) {
-      this.codigo = "E001-00" + this.notaCreditoId;
+      this.codigo = "N001-00" + this.notaCreditoId;
     }
   }
 
