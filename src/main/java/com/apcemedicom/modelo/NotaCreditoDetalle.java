@@ -18,8 +18,8 @@ public class NotaCreditoDetalle {
   @JoinColumn(name = "productoId")
   private Producto producto;
   @ManyToOne
-  @JoinColumn(name = "facturaId")
-  private Factura factura;
+  @JoinColumn(name = "notaCreditoId")
+  private NotaCredito notaCredito;
   @Column(name = "createdAt")
   private java.util.Date createdAt;
   private String tipoServicio;
@@ -35,8 +35,8 @@ public class NotaCreditoDetalle {
   public void setPrecioUnitario(Double precioUnitario) { this.precioUnitario = precioUnitario; }
   public Producto getProducto() { return producto; }
   public void setProducto(Producto producto) { this.producto = producto; }
-  public Factura getFactura() { return factura; }
-  public void setFactura(Factura factura) { this.factura = factura; }
+  public NotaCredito getNotaCredito() { return notaCredito; }
+  public void setNotaCredito(NotaCredito notaCredito) { this.notaCredito = notaCredito; }
   public Date getCreatedAt() { return createdAt; }
   public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
   public String getTipoServicio() { return tipoServicio; }
