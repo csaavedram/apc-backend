@@ -41,4 +41,13 @@ public class OrdersServiceImpl implements OrdersService {
             ordersRepository.save(order);
         });
     }
+
+    @Override
+    public void atenderOrder(Long orderId, Double preciocli) {
+        ordersRepository.findById(orderId).ifPresent(order -> {
+            order.setPreciocli(preciocli);
+            order.setStatus("Atendido");
+            ordersRepository.save(order);
+        });
+    }
 }

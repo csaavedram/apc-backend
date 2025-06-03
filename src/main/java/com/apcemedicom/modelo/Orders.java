@@ -100,7 +100,7 @@ public class Orders {
     }
     public void setTipoOperacion(String tipoOperacion) {
         this.tipoOperacion = tipoOperacion;
-}
+    }
     public Orders(){
 
     }
