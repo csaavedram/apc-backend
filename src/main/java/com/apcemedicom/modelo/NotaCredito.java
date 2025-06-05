@@ -4,11 +4,11 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "factura")
-public class Factura {
+@Table(name = "notaCredito")
+public class NotaCredito {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long facturaId;
+  private Long notaCreditoId;
 
   public enum Divisa { Soles, Dolares }
 
@@ -49,14 +49,14 @@ public class Factura {
   @PostPersist
   private void actualizarCodigo() {
     if (this.codigo.startsWith("TEMP-")) {
-      this.codigo = "E001-00" + this.facturaId;
+      this.codigo = "N001-00" + this.notaCreditoId;
     }
   }
 
-  public Factura() { }
+  public NotaCredito() { }
 
-  public Long getFacturaId() { return facturaId; }
-  public void setFacturaId(Long facturaId) { this.facturaId = facturaId; }
+  public Long getNotaCreditoId() { return notaCreditoId; }
+  public void setNotaCreditoId(Long notaCreditoId) { this.notaCreditoId = notaCreditoId; }
   public Divisa getDivisa() { return divisa; }
   public void setDivisa(Divisa divisa) { this.divisa = divisa; }
   public TipoPago getTipoPago() { return tipoPago; }

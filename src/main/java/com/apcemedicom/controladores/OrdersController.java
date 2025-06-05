@@ -2,6 +2,7 @@ package com.apcemedicom.controladores;
 
 import com.apcemedicom.servicios.OrdersService;
 import com.apcemedicom.modelo.Orders;
+import com.apcemedicom.dtos.AtenderOrderDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,8 +41,12 @@ public class OrdersController {
     }
 
     @PatchMapping("/cambiar-estado/{orderId}")
-    public ResponseEntity<?> cambiarEstadoOrder(@PathVariable("orderId") Long orderId) {
+    public void cambiarEstadoOrder(@PathVariable("orderId") Long orderId) {
         ordersService.cambiarEstadoOrder(orderId);
-        return ResponseEntity.ok("Estado de la orden actualizado exitosamente");
+    }
+
+    @PatchMapping("/atender/{orderId}")
+    public void atenderOrder(@PathVariable("orderId") Long orderId, @RequestBody AtenderOrderDTO atenderOrderDTO) {
+        ordersService.atenderOrder(orderId, atenderOrderDTO.getPreciocli());
     }
 }
