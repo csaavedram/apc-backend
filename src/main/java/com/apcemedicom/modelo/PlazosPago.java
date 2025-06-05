@@ -12,14 +12,15 @@ public class PlazosPago {
   private Long plazoPagoId;
 
   @Column(nullable = false)
-  private Integer dias; 
-
-  @Column(nullable = false)
   private Double cantidad; 
 
   @ManyToOne
-  @JoinColumn(name = "facturaId", nullable = false)
+  @JoinColumn(name = "facturaId", nullable = true)
   private Factura factura;
+
+  @ManyToOne
+  @JoinColumn(name = "cotizacionId", nullable = true)
+  private Cotizacion cotizacion;
 
   @Column(name = "fechaInicio", nullable = false)
   private Date fechaInicio; 
@@ -31,12 +32,12 @@ public class PlazosPago {
 
   public Long getPlazoPagoId() { return plazoPagoId; }
   public void getPlazoPagoId(Long plazoPagoId) { this.plazoPagoId = plazoPagoId; }
-  public Integer getDias() { return dias; }
-  public void setDias(Integer dias) { this.dias = dias; }
   public Double getCantidad() { return cantidad; }
   public void setCantidad(Double cantidad) { this.cantidad = cantidad; }
   public Factura getFactura() { return factura; }
   public void setFactura(Factura factura) { this.factura = factura; }
+  public Cotizacion getCotizacion() { return cotizacion; }
+  public void setCotizacion(Cotizacion cotizacion) { this.cotizacion = cotizacion; }
   public Date getFechaInicio() { return fechaInicio; }
   public void setFechaInicio(Date fechaInicio) { this.fechaInicio = fechaInicio; }
   public Date getFechaFin() { return fechaFin; }

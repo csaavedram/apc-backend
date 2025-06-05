@@ -24,8 +24,8 @@ public class Orders {
     private java.util.Date createdAt;
     private java.util.Date fechaOperacion;
     private String nOperacion;
-    private String documento;
     private String tipoOperacion;
+    private String tipoPago;
 
     public Long getOrderId() {
         return orderId;
@@ -89,17 +89,17 @@ public class Orders {
     public void setNOperacion(String nOperacion) {
         this.nOperacion = nOperacion;
     }
-    public String getDocumento() {
-        return documento;
-    }
-    public void setDocumento(String documento) {
-        this.documento = documento;
-    }
     public String getTipoOperacion() {
         return tipoOperacion;
     }
     public void setTipoOperacion(String tipoOperacion) {
         this.tipoOperacion = tipoOperacion;
+    }
+    public String getTipoPago() {
+        return tipoPago;
+    }
+    public void setTipoPago(String tipoPago) {
+        this.tipoPago = tipoPago;
     }
     public Orders(){
 
