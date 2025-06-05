@@ -27,6 +27,9 @@ public class PlazosPago {
 
   @Column(name = "fechaFin", nullable = false)
   private Date fechaFin; 
+  
+  @Column(nullable = false)
+  private String estado;
 
   public PlazosPago() { }
 
@@ -42,4 +45,6 @@ public class PlazosPago {
   public void setFechaInicio(Date fechaInicio) { this.fechaInicio = fechaInicio; }
   public Date getFechaFin() { return fechaFin; }
   public void setFechaFin(Date fechaFin) { this.fechaFin = fechaFin; }
+  public String getEstado() { return estado; }
+  public void setEstado(String estado) { this.estado = estado; }
 }
