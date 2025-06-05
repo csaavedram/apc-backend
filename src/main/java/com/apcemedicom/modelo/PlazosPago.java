@@ -31,6 +31,9 @@ public class PlazosPago {
   @Column(nullable = false)
   private String estado;
 
+  @Column(nullable = false)
+  private Integer nroCuota;
+
   public PlazosPago() { }
 
   public Long getPlazoPagoId() { return plazoPagoId; }
@@ -47,4 +50,10 @@ public class PlazosPago {
   public void setFechaFin(Date fechaFin) { this.fechaFin = fechaFin; }
   public String getEstado() { return estado; }
   public void setEstado(String estado) { this.estado = estado; }
+  public Integer getNroCuota() {
+    return nroCuota;
+  }
+  public void setNroCuota(Integer nroCuota) {
+    this.nroCuota = nroCuota;
+  }
 }
