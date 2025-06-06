@@ -50,4 +50,20 @@ public class OrdersServiceImpl implements OrdersService {
             ordersRepository.save(order);
         });
     }
+
+    @Override
+    public void rechazarOrder(Long ordersId) {
+        ordersRepository.findById(ordersId).ifPresent(order -> {
+            order.setStatus("Rechazado");
+            ordersRepository.save(order);
+        });
+    }
+
+    @Override
+    public void aceptarOrder(Long ordersId) {
+        ordersRepository.findById(ordersId).ifPresent(order -> {
+            order.setStatus("Aceptado");
+            ordersRepository.save(order);
+        });
+    }
 }
