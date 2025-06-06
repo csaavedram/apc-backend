@@ -49,4 +49,14 @@ public class OrdersController {
     public void atenderOrder(@PathVariable("orderId") Long orderId, @RequestBody AtenderOrderDTO atenderOrderDTO) {
         ordersService.atenderOrder(orderId, atenderOrderDTO.getPreciocli());
     }
+
+    @PatchMapping("/rechazar/{orderId}")
+    public void rechazarOrder(@PathVariable("orderId") Long orderId) {
+        ordersService.rechazarOrder(orderId);
+    }
+
+    @PatchMapping("/aceptar/{orderId}")
+    public void aceptarOrder(@PathVariable("orderId") Long orderId) {
+        ordersService.aceptarOrder(orderId);
+    }
 }
