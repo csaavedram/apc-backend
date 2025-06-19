@@ -37,4 +37,14 @@ public class PlazosPagoServiceImpl implements PlazosPagoService {
     plazoPago.setFactura(factura);
     return plazosPagoRepository.save(plazoPago);
   }
+
+  @Override
+  public PlazosPago actualizarPlazoPago(PlazosPago plazoPago) {
+    return plazosPagoRepository.save(plazoPago);
+  }
+
+  @Override
+  public void eliminarPlazoPago(Long plazoPagoId) {
+      plazosPagoRepository.deleteById(plazoPagoId);
+  }
 }

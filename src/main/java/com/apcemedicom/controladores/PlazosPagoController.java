@@ -37,4 +37,16 @@ public class PlazosPagoController {
     PlazosPago plazoPagoActualizado = plazosPagoService.actualizarFacturaEnPlazoPago(plazoPagoId, actualizarFacturaDTO.getFacturaId());
     return ResponseEntity.ok(plazoPagoActualizado);
   }
+
+  @PutMapping("/")
+  public ResponseEntity<PlazosPago> actualizarPlazoPago(@RequestBody PlazosPago plazoPago) {
+    PlazosPago plazoPagoActualizado = plazosPagoService.actualizarPlazoPago(plazoPago);
+    return ResponseEntity.ok(plazoPagoActualizado);
+  }
+
+  @DeleteMapping("/{plazoPagoId}")
+  public ResponseEntity<Void> eliminarPlazoPago(@PathVariable("plazoPagoId") Long plazoPagoId) {
+    plazosPagoService.eliminarPlazoPago(plazoPagoId);
+    return ResponseEntity.noContent().build();
+  }
 }
