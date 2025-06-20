@@ -1,13 +1,20 @@
 package com.apcemedicom.controladores;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.apcemedicom.modelo.Factura;
 import com.apcemedicom.modelo.FacturaDetalle;
 import com.apcemedicom.servicios.FacturaDetalleService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/facturadetails")
@@ -28,5 +35,9 @@ public class FacturaDetalleController {
   public ResponseEntity<List<FacturaDetalle>> listarFacturaDetailsPorFactura(@PathVariable("facturaId") Factura facturaId) {
     List<FacturaDetalle> facturaDetails = facturaDetalleService.obtenerDetallesFacturaPorFactura(facturaId);
     return ResponseEntity.ok(facturaDetails);
+  }
+  @GetMapping("/")
+  public ResponseEntity<?> listarFacturas() {
+    return ResponseEntity.ok(facturaDetalleService.obtenerDetallesFacturas());
   }
 }
