@@ -1,7 +1,12 @@
 package com.apcemedicom.modelo;
 import javax.persistence.*;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "productos")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,11 +19,24 @@ public class Producto {
     private String descripcion;
     private String imagen;
     @Column(name = "datecreated")
-    private java.util.Date dateCreated;
-    private Integer status;
-    @ManyToOne
+    private java.util.Date dateCreated;    private Integer status;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoriaId")
     private Categoria categoria;
+    
+    // Relación con números de serie
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<ProductoSerie> numerosSerie;
+    
+    // Campo para indicar si el producto requiere número de serie
+    @Column(name = "requiereNumeroSerie")
+    private Boolean requiereNumeroSerie = false;
+      // Campo para indicar si el producto es perecible
+    @Column(name = "esPerecible")
+    private Boolean esPerecible = false;
+    
     public Long getProductoId() {
         return productoId;
     }
@@ -65,12 +83,37 @@ public class Producto {
     }
     public Integer getStatus(){return status;}
     public void setStatus(Integer status){this.status = status;}
-    public Categoria getCategoria() {
-        return categoria;
+    public Categoria getCategoria() {        return categoria;
     }
+    
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
+    
+    public List<ProductoSerie> getNumerosSerie() {
+        return numerosSerie;
+    }
+    
+    public void setNumerosSerie(List<ProductoSerie> numerosSerie) {
+        this.numerosSerie = numerosSerie;
+    }
+    
+    public Boolean getRequiereNumeroSerie() {
+        return requiereNumeroSerie;
+    }
+    
+    public void setRequiereNumeroSerie(Boolean requiereNumeroSerie) {
+        this.requiereNumeroSerie = requiereNumeroSerie;
+    }
+    
+    public Boolean getEsPerecible() {
+        return esPerecible;
+    }
+    
+    public void setEsPerecible(Boolean esPerecible) {
+        this.esPerecible = esPerecible;
+    }
+    
     public Producto(){
 
     }

@@ -10,4 +10,8 @@ public interface ProductoService {
     Set<Producto> obtenerProductos();
     Producto obtenerProducto(Long productoId);
     void eliminarProducto(Long productoId);
+    
+    // Métodos para gestión de stock
+    Producto aumentarStock(Long productoId, Integer cantidad);
+    Producto restarStock(Long productoId, Integer cantidad);
 }
