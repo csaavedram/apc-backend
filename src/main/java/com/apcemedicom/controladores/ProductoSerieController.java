@@ -118,6 +118,20 @@ public class ProductoSerieController {
             if (cantidad != null) {
                 productoSerie.setCantidad(cantidad);
             }
+            // Actualizar fecha de vencimiento si viene
+            if (fechaVencimientoStr != null && !fechaVencimientoStr.isEmpty()) {
+                try {
+                    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+                    sdf.setLenient(false);
+                    Date fechaVencimiento = sdf.parse(fechaVencimientoStr);
+                    productoSerie.setFechaVencimiento(fechaVencimiento);
+                } catch (Exception ex) {
+                    // Si hay error de parseo, no actualiza la fecha
+                    ex.printStackTrace();
+                }
+            } else {
+                productoSerie.setFechaVencimiento(null);
+            }
             
             // Actualizar producto si viene un nuevo ID
             if (productoId != null) {
