@@ -1,5 +1,6 @@
 package com.apcemedicom.servicios.impl;
 
+import com.apcemedicom.modelo.Factura;
 import com.apcemedicom.modelo.PlazosPago;
 import com.apcemedicom.repositorios.PlazosPagoRepository;
 import com.apcemedicom.servicios.PlazosPagoService;
@@ -21,5 +22,29 @@ public class PlazosPagoServiceImpl implements PlazosPagoService {
   @Override
   public List<PlazosPago> obtenerPlazosPagoPorFactura(Long facturaId) {
       return plazosPagoRepository.findByFactura_FacturaId(facturaId);
+  }
+
+  @Override
+  public List<PlazosPago> obtenerPlazosPagoPorCotizacion(Long cotizacionId) {
+      return plazosPagoRepository.findByCotizacion_CotizacionId(cotizacionId);
+  }
+
+  @Override
+  public PlazosPago actualizarFacturaEnPlazoPago(Long plazoPagoId, Long facturaId) {
+    PlazosPago plazoPago = plazosPagoRepository.findById(plazoPagoId).orElseThrow(() -> new RuntimeException("Plazo de pago no encontrado"));
+    Factura factura = new Factura();
+    factura.setFacturaId(facturaId);
+    plazoPago.setFactura(factura);
+    return plazosPagoRepository.save(plazoPago);
+  }
+
+  @Override
+  public PlazosPago actualizarPlazoPago(PlazosPago plazoPago) {
+    return plazosPagoRepository.save(plazoPago);
+  }
+
+  @Override
+  public void eliminarPlazoPago(Long plazoPagoId) {
+      plazosPagoRepository.deleteById(plazoPagoId);
   }
 }
