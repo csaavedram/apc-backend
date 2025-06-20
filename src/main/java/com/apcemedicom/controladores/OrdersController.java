@@ -40,9 +40,18 @@ public class OrdersController {
         return ResponseEntity.ok(orders);
     }
 
-    @PatchMapping("/cambiar-estado/{orderId}")
-    public void cambiarEstadoOrder(@PathVariable("orderId") Long orderId) {
-        ordersService.cambiarEstadoOrder(orderId);
+    @PatchMapping("/pagar/{orderId}")
+    public ResponseEntity<Orders> pagarOrden(@PathVariable("orderId") Long orderId) {
+        ordersService.pagarOrden(orderId);
+        Orders order = ordersService.obtenerOrder(orderId);
+        return ResponseEntity.ok(order);
+    }
+
+    @PatchMapping("/pagar-parcialmente/{orderId}")
+    public ResponseEntity<Orders> pagarParcialmenteOrden(@PathVariable("orderId") Long orderId) {
+        ordersService.pagarParcialmenteOrden(orderId);
+        Orders order = ordersService.obtenerOrder(orderId);
+        return ResponseEntity.ok(order);
     }
 
     @PatchMapping("/atender/{orderId}")
@@ -56,7 +65,9 @@ public class OrdersController {
     }
 
     @PatchMapping("/aceptar/{orderId}")
-    public void aceptarOrder(@PathVariable("orderId") Long orderId) {
+    public ResponseEntity<Orders> aceptarOrder(@PathVariable("orderId") Long orderId) {
         ordersService.aceptarOrder(orderId);
+        Orders order = ordersService.obtenerOrder(orderId);
+        return ResponseEntity.ok(order);
     }
 }

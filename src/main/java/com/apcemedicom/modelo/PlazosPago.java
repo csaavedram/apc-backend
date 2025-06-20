@@ -22,6 +22,10 @@ public class PlazosPago {
   @JoinColumn(name = "cotizacionId", nullable = true)
   private Cotizacion cotizacion;
 
+  @ManyToOne
+  @JoinColumn(name = "notaCreditoId", nullable = true)
+  private NotaCredito notaCredito;
+
   @Column(name = "fechaInicio", nullable = false)
   private Date fechaInicio; 
 
@@ -44,6 +48,8 @@ public class PlazosPago {
   public void setFactura(Factura factura) { this.factura = factura; }
   public Cotizacion getCotizacion() { return cotizacion; }
   public void setCotizacion(Cotizacion cotizacion) { this.cotizacion = cotizacion; }
+  public NotaCredito getNotaCredito() { return notaCredito; }
+  public void setNotaCredito(NotaCredito notaCredito) { this.notaCredito = notaCredito; }
   public Date getFechaInicio() { return fechaInicio; }
   public void setFechaInicio(Date fechaInicio) { this.fechaInicio = fechaInicio; }
   public Date getFechaFin() { return fechaFin; }

@@ -35,14 +35,6 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public void cambiarEstadoOrder(Long ordersId) {
-        ordersRepository.findById(ordersId).ifPresent(order -> {
-            order.setStatus("Pagado");
-            ordersRepository.save(order);
-        });
-    }
-
-    @Override
     public void atenderOrder(Long orderId, Double preciocli) {
         ordersRepository.findById(orderId).ifPresent(order -> {
             order.setPreciocli(preciocli);
@@ -63,6 +55,22 @@ public class OrdersServiceImpl implements OrdersService {
     public void aceptarOrder(Long ordersId) {
         ordersRepository.findById(ordersId).ifPresent(order -> {
             order.setStatus("Aceptado");
+            ordersRepository.save(order);
+        });
+    }
+
+    @Override
+    public void pagarOrden(Long ordersId) {
+        ordersRepository.findById(ordersId).ifPresent(order -> {
+            order.setStatus("Pagado");
+            ordersRepository.save(order);
+        });
+    }
+
+    @Override
+    public void pagarParcialmenteOrden(Long ordersId) {
+        ordersRepository.findById(ordersId).ifPresent(order -> {
+            order.setStatus("Pagado parcialmente");
             ordersRepository.save(order);
         });
     }

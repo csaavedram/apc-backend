@@ -50,4 +50,23 @@ public class CotizacionController {
     Cotizacion quotation = cotizacionService.obtenerCotizacionPorCodigo(codigo);
     return ResponseEntity.ok(quotation);
   }
+  @PatchMapping("/aceptar/{quotationId}")
+  public ResponseEntity<Cotizacion> aceptarCotizacion(@PathVariable("quotationId") Long quotationId) {
+    cotizacionService.aceptarCotizacion(quotationId);
+    Cotizacion quotation = cotizacionService.obtenerCotizacion(quotationId);
+    return ResponseEntity.ok(quotation);
+  }
+  @PatchMapping("/pagar/{quotationId}")
+  public ResponseEntity<Cotizacion> pagarCotizacion(@PathVariable("quotationId") Long quotationId) {
+      cotizacionService.pagarCotizacion(quotationId);
+      Cotizacion quotation = cotizacionService.obtenerCotizacion(quotationId);
+      return ResponseEntity.ok(quotation);
+  }
+
+  @PatchMapping("/pagar-parcialmente/{quotationId}")
+  public ResponseEntity<Cotizacion> pagarParcialmenteCotizacion(@PathVariable("quotationId") Long quotationId) {
+      cotizacionService.pagarParcialmenteCotizacion(quotationId);
+      Cotizacion quotation = cotizacionService.obtenerCotizacion(quotationId);
+      return ResponseEntity.ok(quotation);
+  }
 }

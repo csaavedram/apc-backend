@@ -11,4 +11,7 @@ public interface PlazosPagoService {
     PlazosPago actualizarFacturaEnPlazoPago(Long plazoPagoId, Long facturaId);
     PlazosPago actualizarPlazoPago(PlazosPago plazoPago);
     void eliminarPlazoPago(Long plazoPagoId);
+    List<PlazosPago> obtenerPlazosPagoPorNotaCredito(Long notaCreditoId);
+    PlazosPago actualizarNotaCreditoEnPlazoPago(Long plazoPagoId, Long notaCreditoId);
+    PlazosPago cambiarEstadoAPagado(Long plazoPagoId);
 }

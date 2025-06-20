@@ -37,4 +37,12 @@ public class FacturaServiceImpl implements FacturaService {
     return facturaRepository.findByCodigo(codigo)
         .orElseThrow(() -> new RuntimeException("Factura no encontrada con el código: " + codigo));
   }
+  @Override
+  public List<Factura> obtenerFacturasPorCodigoCotizacion(String codigoCotizacion) {
+    return facturaRepository.findByCotizacion_Codigo(codigoCotizacion);
+  }
+  @Override
+  public List<Factura> obtenerFacturasPorCotizacionId(Long cotizacionId) {
+    return facturaRepository.findByCotizacion_CotizacionId(cotizacionId);
+  }
 }
