@@ -59,11 +59,32 @@ public class UsuarioController {
     @GetMapping("/razonSocial/{razonSocial}")
     public Usuario obtenerUsuarioPorRazonSocial(@PathVariable("razonSocial") String razonSocial) {
         return usuarioService.obtenerUsuarioPorRazonSocial(razonSocial);
-    }
-
-    @DeleteMapping("/{usuarioId}")
+    }    @DeleteMapping("/{usuarioId}")
     public void eliminarUsuario(@PathVariable("usuarioId") Long usuarioId){
         usuarioService.eliminarUsuario(usuarioId);
+    }
+
+    @GetMapping("/verificar-disponibilidad/{username}")
+    public ResponseEntity<?> verificarDisponibilidadUsername(@PathVariable("username") String username) {
+        try {
+            Usuario usuario = usuarioService.obtenerUsuario(username);
+            
+            java.util.Map<String, Object> response = new java.util.HashMap<>();
+            if (usuario != null) {
+                response.put("disponible", false);
+                response.put("mensaje", "El username ya está registrado");
+            } else {
+                response.put("disponible", true);
+                response.put("mensaje", "Username disponible");
+            }
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            java.util.Map<String, Object> response = new java.util.HashMap<>();
+            response.put("disponible", true);
+            response.put("mensaje", "Username disponible");
+            return ResponseEntity.ok(response);
+        }
     }
 
 }

@@ -2,6 +2,7 @@ package com.apcemedicom.modelo;
 import javax.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "servicios")
@@ -25,6 +26,9 @@ public class Servicio {
     private Date fechaFinGarantia;
 
     private Integer status;
+
+    @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<DetalleServicio> detalleServicios;
 
     // Constructor vacío
     public Servicio() {
@@ -88,9 +92,15 @@ public class Servicio {
 
     public Integer getStatus() {
         return status;
+    }    public void setStatus(Integer status) {
+        this.status = status;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public List<DetalleServicio> getDetalleServicios() {
+        return detalleServicios;
+    }
+
+    public void setDetalleServicios(List<DetalleServicio> detalleServicios) {
+        this.detalleServicios = detalleServicios;
     }
 }

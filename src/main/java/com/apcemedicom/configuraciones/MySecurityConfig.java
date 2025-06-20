@@ -45,17 +45,17 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(this.userDetailsServiceImpl).passwordEncoder(passwordEncoder());
-    }
-
-    @Override
+    }    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf()
                 .disable()
                 .cors()
-                .disable()
+                .and()
                 .authorizeRequests()
-                .antMatchers("/generate-token","/usuarios/", "/productos/*", "/categorias/*", "/catalogo/*", "/orders/*", "/ordersdetails/*", "/solicitud/*").permitAll()
+                .antMatchers("/uploads/imagen").permitAll() // Permitir subida de imagen
+                .antMatchers("/uploads/**").permitAll()    // Permitir acceso a imágenes subidas
+                .antMatchers("/generate-token","/usuarios/", "/usuarios/verificar-disponibilidad/*", "/productos/*", "/categorias/*", "/catalogo/*", "/orders/*", "/ordersdetails/*", "/solicitud/*", "/servicios/*", "/detalle-servicios/*", "/producto-serie/*", "/facturadetails/*", "/factura/*").permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated()
                 .and()

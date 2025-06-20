@@ -21,11 +21,35 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public Set<Producto> obtenerProductos(){ return new LinkedHashSet<>(productoRepository.findAll());}
     @Override
-    public Producto obtenerProducto(Long productoId) { return productoRepository.findById(productoId).get();}
-    @Override
+    public Producto obtenerProducto(Long productoId) { return productoRepository.findById(productoId).get();}    @Override
     public void eliminarProducto(Long productoId) {
         Producto producto = new Producto();
         producto.setProductoId(productoId);
         productoRepository.delete(producto);
+    }
+    
+    @Override
+    public Producto aumentarStock(Long productoId, Integer cantidad) {
+        Producto producto = obtenerProducto(productoId);
+        if (producto.getStock() == null) {
+            producto.setStock(0);
+        }
+        producto.setStock(producto.getStock() + cantidad);
+        return productoRepository.save(producto);
+    }
+    
+    @Override
+    public Producto restarStock(Long productoId, Integer cantidad) {
+        Producto producto = obtenerProducto(productoId);
+        if (producto.getStock() == null) {
+            producto.setStock(0);
+        }
+        
+        if (producto.getStock() < cantidad) {
+            throw new RuntimeException("Stock insuficiente. Stock actual: " + producto.getStock() + ", cantidad solicitada: " + cantidad);
+        }
+        
+        producto.setStock(producto.getStock() - cantidad);
+        return productoRepository.save(producto);
     }
 }
