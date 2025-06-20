@@ -45,4 +45,26 @@ public class CotizacionServiceImpl implements CotizacionService {
     return quotationRepository.findByCodigo(codigo)
         .orElseThrow(() -> new RuntimeException("Cotización no encontrada con el código: " + codigo));
   }
+  @Override
+  public void aceptarCotizacion(Long quotationId) {
+    quotationRepository.findById(quotationId).ifPresent(quotation -> {
+        quotation.setEstado("Aceptado");
+        quotationRepository.save(quotation);
+    });
+  }
+  @Override
+  public void pagarCotizacion(Long quotationId) {
+    quotationRepository.findById(quotationId).ifPresent(quotation -> {
+        quotation.setEstado("Pagado");
+        quotationRepository.save(quotation);
+    });
+  }
+
+  @Override
+  public void pagarParcialmenteCotizacion(Long quotationId) {
+    quotationRepository.findById(quotationId).ifPresent(quotation -> {
+        quotation.setEstado("Pagado Parcialmente");
+        quotationRepository.save(quotation);
+    });
+  }
 }

@@ -14,4 +14,7 @@ public interface CotizacionService {
   List<Cotizacion> obtenerCotizacionesPorUsuario(Long userId);
   void anularCotizacion(Long quotationId);
   Cotizacion obtenerCotizacionPorCodigo(String codigo);
+  void aceptarCotizacion(Long quotationId);
+  void pagarCotizacion(Long quotationId);
+  void pagarParcialmenteCotizacion(Long quotationId);
 }

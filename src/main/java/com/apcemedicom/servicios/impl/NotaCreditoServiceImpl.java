@@ -1,6 +1,7 @@
 package com.apcemedicom.servicios.impl;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,4 +22,8 @@ public class NotaCreditoServiceImpl implements NotaCreditoService {
   public Set<NotaCredito> obtenerNotasCredito() { return new LinkedHashSet<>(notaCreditoRepository.findAll()); }
   @Override
   public NotaCredito obtenerNotaCredito(Long notaCreditoId) { return notaCreditoRepository.findById(notaCreditoId).get(); }
+  @Override
+  public List<NotaCredito> obtenerNotaCreditoPorCodigoFactura(String codigoFactura) {
+    return notaCreditoRepository.findByFactura_Codigo(codigoFactura);
+  }
 }

@@ -1,6 +1,7 @@
 package com.apcemedicom.controladores;
 
 import com.apcemedicom.dtos.ActualizarFacturaDTO;
+import com.apcemedicom.dtos.ActualizarNotaCreditoDTO;
 import com.apcemedicom.modelo.PlazosPago;
 import com.apcemedicom.servicios.PlazosPagoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,26 @@ public class PlazosPagoController {
     return ResponseEntity.ok(plazosPagoService.obtenerPlazosPagoPorCotizacion(cotizacionId));
   }
 
+  @GetMapping("/notaCredito/{notaCreditoId}")
+  public ResponseEntity<List<PlazosPago>> obtenerPlazosPagoPorNotaCredito(@PathVariable("notaCreditoId") Long notaCreditoId) {
+    return ResponseEntity.ok(plazosPagoService.obtenerPlazosPagoPorNotaCredito(notaCreditoId));
+  }
+
   @PatchMapping("/{plazoPagoId}")
   public ResponseEntity<PlazosPago> actualizarFacturaEnPlazoPago(@PathVariable("plazoPagoId") Long plazoPagoId, @RequestBody ActualizarFacturaDTO actualizarFacturaDTO) {
     PlazosPago plazoPagoActualizado = plazosPagoService.actualizarFacturaEnPlazoPago(plazoPagoId, actualizarFacturaDTO.getFacturaId());
+    return ResponseEntity.ok(plazoPagoActualizado);
+  }
+
+  @PatchMapping("/{plazoPagoId}/notaCredito")
+  public ResponseEntity<PlazosPago> actualizarNotaCreditoEnPlazoPago(@PathVariable("plazoPagoId") Long plazoPagoId, @RequestBody ActualizarNotaCreditoDTO actualizarNotaCreditoDTO) {
+    PlazosPago plazoPagoActualizado = plazosPagoService.actualizarNotaCreditoEnPlazoPago(plazoPagoId, actualizarNotaCreditoDTO.getNotaCreditoId());
+    return ResponseEntity.ok(plazoPagoActualizado);
+  }
+
+  @PatchMapping("/{plazoPagoId}/estado/pagado")
+  public ResponseEntity<PlazosPago> cambiarEstadoAPagado(@PathVariable("plazoPagoId") Long plazoPagoId) {
+    PlazosPago plazoPagoActualizado = plazosPagoService.cambiarEstadoAPagado(plazoPagoId);
     return ResponseEntity.ok(plazoPagoActualizado);
   }
 

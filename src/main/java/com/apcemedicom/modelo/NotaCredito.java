@@ -38,6 +38,10 @@ public class NotaCredito {
   @Column(name = "estado", nullable = false)
   private String estado;
 
+  @ManyToOne
+  @JoinColumn(name = "facturaId", nullable = true)
+  private Factura factura;
+
   @PrePersist
   private void generarCodigoTemporal() {
     if (this.codigo == null) {
@@ -71,4 +75,6 @@ public class NotaCredito {
   public void setCodigo(String codigo) { this.codigo = codigo; }
   public String getEstado() { return estado; }
   public void setEstado(String estado) { this.estado = estado; }
+  public Factura getFactura() { return factura; }
+  public void setFactura(Factura factura) { this.factura = factura; }
 }

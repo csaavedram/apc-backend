@@ -11,8 +11,9 @@ public interface OrdersService {
     Orders obtenerOrder(Long ordersId);
     void eliminarOrder(Long ordersId);
     List<Orders> obtenerOrdersPorUsuario(Long id);
-    void cambiarEstadoOrder(Long ordersId);
     void atenderOrder(Long orderId, Double preciocli);
     void rechazarOrder(Long ordersId);
     void aceptarOrder(Long ordersId);
+    void pagarOrden(Long ordersId);
+    void pagarParcialmenteOrden(Long ordersId);
 }

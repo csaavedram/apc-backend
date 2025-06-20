@@ -43,4 +43,16 @@ public class FacturaController {
     Factura factura = facturaService.obtenerFacturaPorCodigo(codigo);
     return ResponseEntity.ok(factura);
   }
+
+  @GetMapping("/cotizacion/{codigoCotizacion}")
+  public ResponseEntity<List<Factura>> listarFacturasPorCodigoCotizacion(@PathVariable("codigoCotizacion") String codigoCotizacion) {
+    List<Factura> facturas = facturaService.obtenerFacturasPorCodigoCotizacion(codigoCotizacion);
+    return ResponseEntity.ok(facturas);
+  }
+
+  @GetMapping("/cotizacion/id/{cotizacionId}")
+  public ResponseEntity<List<Factura>> listarFacturasPorCotizacionId(@PathVariable("cotizacionId") Long cotizacionId) {
+    List<Factura> facturas = facturaService.obtenerFacturasPorCotizacionId(cotizacionId);
+    return ResponseEntity.ok(facturas);
+  }
 }

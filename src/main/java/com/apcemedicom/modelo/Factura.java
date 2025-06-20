@@ -38,6 +38,10 @@ public class Factura {
   @Column(name = "estado", nullable = false)
   private String estado;
 
+  @ManyToOne
+  @JoinColumn(name = "cotizacion_id")
+  private Cotizacion cotizacion;
+
   @PrePersist
   private void generarCodigoTemporal() {
     if (this.codigo == null) {
@@ -71,4 +75,6 @@ public class Factura {
   public void setCodigo(String codigo) { this.codigo = codigo; }
   public String getEstado() { return estado; }
   public void setEstado(String estado) { this.estado = estado; }
+  public Cotizacion getCotizacion() { return cotizacion; }
+  public void setCotizacion(Cotizacion cotizacion) { this.cotizacion = cotizacion; }
 }

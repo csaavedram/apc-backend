@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.apcemedicom.modelo.NotaCredito;
 import com.apcemedicom.servicios.NotaCreditoService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/notacredito")
 @CrossOrigin("*")
@@ -31,5 +33,10 @@ public class NotaCreditoController {
   @GetMapping("/{notaCreditoId}")
   public NotaCredito listarNotaCredito(@PathVariable("notaCreditoId") Long notaCreditoId) {
     return notaCreditoService.obtenerNotaCredito(notaCreditoId);
+  }
+  @GetMapping("/factura/codigo/{codigo}")
+  public ResponseEntity<List<NotaCredito>> listarNotaCreditoPorCodigoFactura(@PathVariable("codigo") String codigo) {
+      List<NotaCredito> resultado = notaCreditoService.obtenerNotaCreditoPorCodigoFactura(codigo);
+      return ResponseEntity.ok(resultado);
   }
 }

@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface FacturaRepository extends JpaRepository<Factura, Long> {
   List<Factura> findByUserId(Long userId);
   Optional<Factura> findByCodigo(String codigo);
+  List<Factura> findByCotizacion_Codigo(String codigoCotizacion);
+  List<Factura> findByCotizacion_CotizacionId(Long cotizacionId);
 }

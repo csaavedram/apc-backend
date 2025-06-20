@@ -1,6 +1,7 @@
 package com.apcemedicom.servicios.impl;
 
 import com.apcemedicom.modelo.Factura;
+import com.apcemedicom.modelo.NotaCredito;
 import com.apcemedicom.modelo.PlazosPago;
 import com.apcemedicom.repositorios.PlazosPagoRepository;
 import com.apcemedicom.servicios.PlazosPagoService;
@@ -47,4 +48,26 @@ public class PlazosPagoServiceImpl implements PlazosPagoService {
   public void eliminarPlazoPago(Long plazoPagoId) {
       plazosPagoRepository.deleteById(plazoPagoId);
   }
+
+  @Override
+  public List<PlazosPago> obtenerPlazosPagoPorNotaCredito(Long notaCreditoId) {
+      return plazosPagoRepository.findByNotaCredito_NotaCreditoId(notaCreditoId);
+  }
+
+  @Override
+  public PlazosPago actualizarNotaCreditoEnPlazoPago(Long plazoPagoId, Long notaCreditoId) {
+    PlazosPago plazoPago = plazosPagoRepository.findById(plazoPagoId).orElseThrow(() -> new RuntimeException("Plazo de pago no encontrado"));
+    NotaCredito notaCredito = new NotaCredito();
+    notaCredito.setNotaCreditoId(notaCreditoId);
+    plazoPago.setNotaCredito(notaCredito);
+    return plazosPagoRepository.save(plazoPago);
+  }
+
+  @Override
+  public PlazosPago cambiarEstadoAPagado(Long plazoPagoId) {
+    PlazosPago plazoPago = plazosPagoRepository.findById(plazoPagoId)
+            .orElseThrow(() -> new RuntimeException("Plazo de pago no encontrado"));
+    plazoPago.setEstado("Pagado");
+    return plazosPagoRepository.save(plazoPago);
+}
 }

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface NotaCreditoRepository extends JpaRepository<NotaCredito, Long>{
     List<NotaCredito> findByUserId(Long userId);
+    List<NotaCredito> findByFactura_Codigo(String codigo);
 }
