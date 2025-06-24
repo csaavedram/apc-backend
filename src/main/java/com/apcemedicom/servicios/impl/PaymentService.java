@@ -15,8 +15,23 @@ public class PaymentService {
   public PaymentService() {
     this.paymentClient = new PaymentClient();
   }
-  
-  public Payment createPayment(PaymentCreateRequest request) throws MPException, MPApiException {
+    public Payment createPayment(PaymentCreateRequest request) throws MPException, MPApiException {
+    // Log detallado antes de crear el request
+    System.out.println("🔍 === PAYMENTSERVICE - CREANDO REQUEST PARA MERCADOPAGO ===");
+    System.out.println("🎯 Token: " + request.getToken());
+    System.out.println("💰 Amount: " + request.getTransactionAmount());
+    System.out.println("📝 Description: " + request.getDescription());
+    System.out.println("💳 Payment Method: " + request.getPaymentMethodId());
+    System.out.println("📊 Installments: " + request.getInstallments());
+    
+    if (request.getPayer() != null) {
+        System.out.println("👤 Payer Email: " + request.getPayer().getEmail());
+        if (request.getPayer().getIdentification() != null) {
+            System.out.println("🆔 ID Type: " + request.getPayer().getIdentification().getType());
+            System.out.println("🆔 ID Number: " + request.getPayer().getIdentification().getNumber());
+        }
+    }
+    
     PaymentCreateRequest paymentRequest = PaymentCreateRequest.builder()
       .token(request.getToken())
       .transactionAmount(request.getTransactionAmount())
@@ -26,6 +41,21 @@ public class PaymentService {
       .installments(request.getInstallments())
       .build();
     
-    return paymentClient.create(paymentRequest);
+    System.out.println("🚀 Llamando a MercadoPago API...");
+    
+    try {
+        Payment payment = paymentClient.create(paymentRequest);
+        System.out.println("✅ Respuesta exitosa de MercadoPago");
+        return payment;
+    } catch (MPApiException e) {
+        System.err.println("❌ Error MPApiException en PaymentService:");
+        System.err.println("📨 Status: " + e.getStatusCode());
+        System.err.println("📨 Message: " + e.getMessage());
+        System.err.println("📨 Response: " + e.getApiResponse().getContent());
+        throw e;
+    } catch (MPException e) {
+        System.err.println("❌ Error MPException en PaymentService: " + e.getMessage());
+        throw e;
+    }
   }
 }

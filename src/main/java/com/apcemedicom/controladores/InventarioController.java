@@ -11,10 +11,24 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 public class InventarioController {
     @Autowired
-    private InventarioService inventarioService;
-    @PostMapping("/")
+    private InventarioService inventarioService;    @PostMapping("/")
     public ResponseEntity<Inventario> agregarInventario(@RequestBody Inventario inventario){
-        return ResponseEntity.ok(inventarioService.agregarInventario(inventario));
+        try {
+            System.out.println("📦 RECIBIENDO INVENTARIO:");
+            System.out.println("- Cantidad: " + inventario.getCantidad());
+            System.out.println("- Tipo: " + inventario.getTipo());
+            System.out.println("- Producto ID: " + (inventario.getProducto() != null ? inventario.getProducto().getProductoId() : "null"));
+            System.out.println("- Número Serie: " + inventario.getNumeroSerie());
+            System.out.println("- Fecha: " + inventario.getDateCreated());
+            
+            Inventario resultado = inventarioService.agregarInventario(inventario);
+            System.out.println("✅ INVENTARIO GUARDADO CON ID: " + resultado.getInventarioId());
+            return ResponseEntity.ok(resultado);
+        } catch (Exception e) {
+            System.err.println("❌ ERROR AL AGREGAR INVENTARIO: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
+        }
     }
     @PutMapping("/")
     public ResponseEntity<Inventario> activarInventario(@RequestBody Inventario inventario){

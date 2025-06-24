@@ -21,8 +21,7 @@ public class ProductoSerieServiceImpl implements ProductoSerieService {
     private ProductoSerieRepository productoSerieRepository;
     
     @Autowired
-    private ProductoRepository productoRepository;
-      @Override
+    private ProductoRepository productoRepository;    @Override
     public ProductoSerie agregarProductoSerie(ProductoSerie productoSerie) {
         if (existeNumeroSerie(productoSerie.getNumeroSerie())) {
             throw new RuntimeException("El número de serie ya existe: " + productoSerie.getNumeroSerie());
@@ -35,6 +34,16 @@ public class ProductoSerieServiceImpl implements ProductoSerieService {
             productoSerie.setCantidad(1);
         }
         
+        // Establecer cantidad original igual a la cantidad inicial
+        if (productoSerie.getCantidadOriginal() == null) {
+            productoSerie.setCantidadOriginal(productoSerie.getCantidad());
+        }
+        
+        // Inicializar cantidad vendida
+        if (productoSerie.getCantidadVendida() == null) {
+            productoSerie.setCantidadVendida(0);
+        }
+        
         ProductoSerie serieGuardada = productoSerieRepository.save(productoSerie);
         
         // Recalcular stock del producto automáticamente
@@ -44,10 +53,30 @@ public class ProductoSerieServiceImpl implements ProductoSerieService {
         
         return serieGuardada;
     }
-    
-    @Override
+      @Override
     public ProductoSerie actualizarProductoSerie(ProductoSerie productoSerie) {
-        return productoSerieRepository.save(productoSerie);
+        System.out.println("🔄 INICIANDO actualización de ProductoSerie en servicio");
+        System.out.println("📋 Serie antes de guardar:");
+        System.out.println("   - ID: " + productoSerie.getProductoSerieId());
+        System.out.println("   - NumeroSerie: " + productoSerie.getNumeroSerie());
+        System.out.println("   - Cantidad: " + productoSerie.getCantidad());
+        System.out.println("   - CantidadOriginal: " + productoSerie.getCantidadOriginal());
+        System.out.println("   - CantidadVendida: " + productoSerie.getCantidadVendida());
+        System.out.println("   - Estado: " + productoSerie.getEstado());
+        System.out.println("   - FechaVenta: " + productoSerie.getFechaVenta());
+        
+        ProductoSerie resultado = productoSerieRepository.save(productoSerie);
+        
+        System.out.println("✅ Serie después de guardar:");
+        System.out.println("   - ID: " + resultado.getProductoSerieId());
+        System.out.println("   - NumeroSerie: " + resultado.getNumeroSerie());
+        System.out.println("   - Cantidad: " + resultado.getCantidad());
+        System.out.println("   - CantidadOriginal: " + resultado.getCantidadOriginal());
+        System.out.println("   - CantidadVendida: " + resultado.getCantidadVendida());
+        System.out.println("   - Estado: " + resultado.getEstado());
+        System.out.println("   - FechaVenta: " + resultado.getFechaVenta());
+        
+        return resultado;
     }
     
     @Override
@@ -189,5 +218,85 @@ public class ProductoSerieServiceImpl implements ProductoSerieService {
         return seriesDisponibles.stream()
                 .mapToInt(serie -> serie.getCantidad() != null ? serie.getCantidad() : 1)
                 .sum();
+    }
+    
+    // Nuevos métodos para procesar ventas
+    public List<ProductoSerie> obtenerSeriesDisponiblesOrdenadas(Producto producto) {
+        return productoSerieRepository.findSeriesDisponiblesOrdenadas(producto);
+    }    public List<java.util.Map<String, Object>> procesarVentaSeries(List<ProductoSerie> seriesDisponibles, int cantidadSolicitada) {
+        List<java.util.Map<String, Object>> seriesProcesadas = new ArrayList<>();
+        int cantidadRestante = cantidadSolicitada;
+        
+        for (ProductoSerie serie : seriesDisponibles) {
+            if (cantidadRestante <= 0) break;
+            
+            java.util.Map<String, Object> serieProcesada = new java.util.HashMap<>();
+            serieProcesada.put("productoSerieId", serie.getProductoSerieId());
+            serieProcesada.put("numeroSerie", serie.getNumeroSerie());
+            
+            int cantidadDisponible = serie.getCantidad() != null ? serie.getCantidad() : 1;
+            int cantidadVendidaAnterior = serie.getCantidadVendida() != null ? serie.getCantidadVendida() : 0;
+            
+            if (cantidadDisponible <= cantidadRestante) {
+                // Vender toda la cantidad disponible de la serie
+                int cantidadAVender = cantidadDisponible;
+                int nuevaCantidadVendida = cantidadVendidaAnterior + cantidadAVender;
+                
+                // Actualizar la serie
+                serie.setCantidad(0); // Ya no queda nada disponible
+                serie.setCantidadVendida(nuevaCantidadVendida);
+                
+                // Si se vendió todo el lote original, marcar como VENDIDO
+                if (nuevaCantidadVendida >= serie.getCantidadOriginal()) {
+                    serie.setEstado("VENDIDO");
+                    serie.setFechaVenta(new Date());
+                } else {
+                    // Aún queda cantidad por vender del lote original (caso raro pero posible)
+                    serie.setEstado("DISPONIBLE");
+                }
+                
+                productoSerieRepository.save(serie);
+                
+                serieProcesada.put("cantidadVendida", cantidadAVender);
+                serieProcesada.put("cantidadVendidaTotal", nuevaCantidadVendida);
+                serieProcesada.put("estado", serie.getEstado());
+                serieProcesada.put("cantidadRestante", 0);
+                
+                cantidadRestante -= cantidadAVender;
+            } else {
+                // Venta parcial: reducir la cantidad disponible
+                int cantidadAVender = cantidadRestante;
+                int nuevaCantidadDisponible = cantidadDisponible - cantidadAVender;
+                int nuevaCantidadVendida = cantidadVendidaAnterior + cantidadAVender;
+                
+                // Actualizar la serie
+                serie.setCantidad(nuevaCantidadDisponible);
+                serie.setCantidadVendida(nuevaCantidadVendida);
+                
+                // Mantener estado DISPONIBLE ya que aún queda stock
+                productoSerieRepository.save(serie);
+                
+                serieProcesada.put("cantidadVendida", cantidadAVender);
+                serieProcesada.put("cantidadVendidaTotal", nuevaCantidadVendida);
+                serieProcesada.put("estado", "VENTA_PARCIAL");
+                serieProcesada.put("cantidadRestante", nuevaCantidadDisponible);
+                serieProcesada.put("cantidadOriginal", serie.getCantidadOriginal());
+                
+                cantidadRestante = 0;
+            }
+            
+            seriesProcesadas.add(serieProcesada);
+        }
+        
+        if (cantidadRestante > 0) {
+            throw new RuntimeException("No hay suficiente stock disponible. Faltante: " + cantidadRestante);
+        }
+        
+        // Recalcular stock del producto
+        if (!seriesDisponibles.isEmpty()) {
+            recalcularStockProducto(seriesDisponibles.get(0).getProducto());
+        }
+        
+        return seriesProcesadas;
     }
 }

@@ -41,4 +41,8 @@ public interface ProductoSerieRepository extends JpaRepository<ProductoSerie, Lo
     
     // Verificar si existe número de serie
     boolean existsByNumeroSerie(String numeroSerie);
+    
+    // Buscar series disponibles ordenadas por fecha de vencimiento (FIFO)
+    @Query("SELECT ps FROM ProductoSerie ps WHERE ps.producto = :producto AND ps.estado = 'DISPONIBLE' AND (ps.fechaVencimiento IS NULL OR ps.fechaVencimiento > CURRENT_DATE) ORDER BY ps.fechaVencimiento ASC NULLS LAST, ps.fechaCreacion ASC")
+    List<ProductoSerie> findSeriesDisponiblesOrdenadas(@Param("producto") Producto producto);
 }

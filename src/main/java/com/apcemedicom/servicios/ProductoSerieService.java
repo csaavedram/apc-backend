@@ -39,4 +39,8 @@ public interface ProductoSerieService {
     
     // Operaciones masivas
     List<ProductoSerie> crearSeriesEnLote(Producto producto, List<String> numerosSerie, Date fechaVencimiento);
+    
+    // Métodos para procesar ventas
+    List<ProductoSerie> obtenerSeriesDisponiblesOrdenadas(Producto producto);
+    List<java.util.Map<String, Object>> procesarVentaSeries(List<ProductoSerie> seriesDisponibles, int cantidadSolicitada);
 }

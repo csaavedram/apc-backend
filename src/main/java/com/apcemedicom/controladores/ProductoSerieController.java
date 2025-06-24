@@ -89,6 +89,9 @@ public class ProductoSerieController {
             @PathVariable Long productoSerieId, 
             @RequestBody Map<String, Object> requestData) {
         try {
+            System.out.println("🔄 INICIANDO actualización de ProductoSerie ID: " + productoSerieId);
+            System.out.println("📋 Datos recibidos: " + requestData);
+            
             // Extraer datos del request
             String numeroSerie = (String) requestData.get("numeroSerie");
             String observaciones = (String) requestData.get("observaciones");
@@ -105,10 +108,16 @@ public class ProductoSerieController {
             // Obtener el ProductoSerie existente
             ProductoSerie productoSerie = productoSerieService.obtenerProductoSerie(productoSerieId);
             if (productoSerie == null) {
+                System.out.println("❌ ProductoSerie no encontrado con ID: " + productoSerieId);
                 return ResponseEntity.notFound().build();
             }
             
-            // Actualizar campos
+            System.out.println("📦 ProductoSerie antes de actualizar:");
+            System.out.println("   - Cantidad: " + productoSerie.getCantidad());
+            System.out.println("   - CantidadOriginal: " + productoSerie.getCantidadOriginal());
+            System.out.println("   - CantidadVendida: " + productoSerie.getCantidadVendida());
+            System.out.println("   - Estado: " + productoSerie.getEstado());
+              // Actualizar campos
             if (numeroSerie != null) {
                 productoSerie.setNumeroSerie(numeroSerie);
             }
@@ -117,6 +126,46 @@ public class ProductoSerieController {
             }
             if (cantidad != null) {
                 productoSerie.setCantidad(cantidad);
+            }
+            
+            // Manejar cantidadOriginal y cantidadVendida para tracking de ventas
+            if (requestData.containsKey("cantidadOriginal")) {
+                Integer cantidadOriginal = (Integer) requestData.get("cantidadOriginal");
+                if (cantidadOriginal != null) {
+                    productoSerie.setCantidadOriginal(cantidadOriginal);
+                    System.out.println("🔄 Actualizando cantidadOriginal: " + cantidadOriginal);
+                }
+            }
+            
+            if (requestData.containsKey("cantidadVendida")) {
+                Integer cantidadVendida = (Integer) requestData.get("cantidadVendida");
+                if (cantidadVendida != null) {
+                    productoSerie.setCantidadVendida(cantidadVendida);
+                    System.out.println("🛒 Actualizando cantidadVendida: " + cantidadVendida);
+                }
+            }
+            
+            // Actualizar estado si viene
+            if (requestData.containsKey("estado")) {
+                String estado = (String) requestData.get("estado");
+                if (estado != null) {
+                    productoSerie.setEstado(estado);
+                    System.out.println("🏷️ Actualizando estado: " + estado);
+                }
+            }
+            
+            // Actualizar fechaVenta si viene
+            if (requestData.containsKey("fechaVenta") && requestData.get("fechaVenta") != null) {
+                String fechaVentaStr = requestData.get("fechaVenta").toString();
+                try {
+                    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                    sdf.setTimeZone(java.util.TimeZone.getTimeZone("UTC"));
+                    Date fechaVenta = sdf.parse(fechaVentaStr);
+                    productoSerie.setFechaVenta(fechaVenta);
+                    System.out.println("📅 Actualizando fechaVenta: " + fechaVenta);
+                } catch (Exception ex) {
+                    System.err.println("Error parseando fechaVenta: " + ex.getMessage());
+                }
             }
             // Actualizar fecha de vencimiento si viene
             if (fechaVencimientoStr != null && !fechaVencimientoStr.isEmpty()) {
@@ -139,11 +188,19 @@ public class ProductoSerieController {
                 if (producto != null) {
                     productoSerie.setProducto(producto);
                 }
-            }
-            
+            }            
             ProductoSerie serieActualizada = productoSerieService.actualizarProductoSerie(productoSerie);
+            
+            System.out.println("✅ ProductoSerie actualizado exitosamente:");
+            System.out.println("   - Cantidad: " + serieActualizada.getCantidad());
+            System.out.println("   - CantidadOriginal: " + serieActualizada.getCantidadOriginal());
+            System.out.println("   - CantidadVendida: " + serieActualizada.getCantidadVendida());
+            System.out.println("   - Estado: " + serieActualizada.getEstado());
+            System.out.println("   - FechaVenta: " + serieActualizada.getFechaVenta());
+            
             return ResponseEntity.ok(serieActualizada);
         } catch (Exception e) {
+            System.err.println("❌ Error actualizando ProductoSerie: " + e.getMessage());
             e.printStackTrace();
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
@@ -268,7 +325,63 @@ public class ProductoSerieController {
         return ResponseEntity.ok().build();
     }
     
-    // Método auxiliar para convertir ProductoSerie a Map
+    // Métodos para procesar ventas
+    @PostMapping("/producto/{productoId}/procesar-venta")
+    public ResponseEntity<?> procesarVenta(
+            @PathVariable Long productoId,
+            @RequestBody Map<String, Object> request) {
+        try {
+            Integer cantidadSolicitada = (Integer) request.get("cantidad");
+            if (cantidadSolicitada == null || cantidadSolicitada <= 0) {
+                return ResponseEntity.badRequest().body("Cantidad inválida");
+            }
+            
+            Producto producto = productoService.obtenerProducto(productoId);
+            if (producto == null) {
+                return ResponseEntity.badRequest().body("Producto no encontrado");
+            }
+            
+            // Obtener series disponibles ordenadas por fecha de vencimiento (FIFO)
+            List<ProductoSerie> seriesDisponibles = productoSerieService.obtenerSeriesDisponiblesOrdenadas(producto);
+            
+            List<Map<String, Object>> seriesProcesadas = productoSerieService.procesarVentaSeries(
+                seriesDisponibles, cantidadSolicitada);
+            
+            return ResponseEntity.ok(seriesProcesadas);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error al procesar venta: " + e.getMessage());
+        }
+    }
+    
+    @PostMapping("/procesar-venta-multiple")
+    public ResponseEntity<?> procesarVentaMultiple(@RequestBody List<Map<String, Object>> productos) {
+        try {
+            Map<String, Object> resultado = new HashMap<>();
+            List<Map<String, Object>> productosConSeries = new java.util.ArrayList<>();
+            
+            for (Map<String, Object> productoData : productos) {
+                Long productoId = Long.valueOf(productoData.get("productoId").toString());
+                Integer cantidad = (Integer) productoData.get("cantidad");
+                
+                Producto producto = productoService.obtenerProducto(productoId);
+                List<ProductoSerie> seriesDisponibles = productoSerieService.obtenerSeriesDisponiblesOrdenadas(producto);
+                
+                List<Map<String, Object>> seriesProcesadas = productoSerieService.procesarVentaSeries(
+                    seriesDisponibles, cantidad);
+                
+                Map<String, Object> productoConSeries = new HashMap<>();
+                productoConSeries.put("productoId", productoId);
+                productoConSeries.put("cantidad", cantidad);
+                productoConSeries.put("series", seriesProcesadas);
+                productosConSeries.add(productoConSeries);
+            }
+            
+            resultado.put("productos", productosConSeries);
+            return ResponseEntity.ok(resultado);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error al procesar venta múltiple: " + e.getMessage());
+        }
+    }    // Método auxiliar para convertir ProductoSerie a Map
     private Map<String, Object> convertirSerieAMap(ProductoSerie serie, Long productoId) {
         Map<String, Object> serieMap = new HashMap<>();
         serieMap.put("productoSerieId", serie.getProductoSerieId());
@@ -276,10 +389,21 @@ public class ProductoSerieController {
         serieMap.put("fechaVencimiento", serie.getFechaVencimiento());
         serieMap.put("estado", serie.getEstado());
         serieMap.put("cantidad", serie.getCantidad());
+        serieMap.put("cantidadOriginal", serie.getCantidadOriginal());
+        serieMap.put("cantidadVendida", serie.getCantidadVendida());
         serieMap.put("fechaCreacion", serie.getFechaCreacion());
         serieMap.put("fechaVenta", serie.getFechaVenta());
         serieMap.put("observaciones", serie.getObservaciones());
         serieMap.put("productoId", productoId);
+        
+        // Información adicional para mostrar en el frontend
+        if (serie.getCantidadOriginal() != null && serie.getCantidadVendida() != null) {
+            serieMap.put("ventaParcial", serie.getCantidadVendida() > 0 && serie.getCantidad() > 0);
+            serieMap.put("porcentajeVendido", 
+                serie.getCantidadOriginal() > 0 ? 
+                    (serie.getCantidadVendida() * 100.0 / serie.getCantidadOriginal()) : 0);
+        }
+        
         return serieMap;
     }
 }

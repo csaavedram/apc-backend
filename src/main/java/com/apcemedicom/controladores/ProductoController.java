@@ -53,21 +53,30 @@ public class ProductoController {    @Autowired
             return ResponseEntity.badRequest().build();
         }
     }
-    
-    // Endpoint para restar stock
+      // Endpoint para restar stock
     @PutMapping("/{productoId}/restar-stock")
     public ResponseEntity<Producto> restarStock(
             @PathVariable("productoId") Long productoId,
             @RequestBody Map<String, Integer> request) {
         try {
+            System.out.println("=== RESTAR STOCK LLAMADO ===");
+            System.out.println("ProductoId: " + productoId);
+            System.out.println("Request body: " + request);
+            
             Integer cantidad = request.get("cantidad");
             if (cantidad == null || cantidad <= 0) {
+                System.out.println("ERROR: Cantidad inválida - " + cantidad);
                 return ResponseEntity.badRequest().build();
             }
             
+            System.out.println("Restando stock - ProductoId: " + productoId + ", Cantidad: " + cantidad);
             Producto producto = productoService.restarStock(productoId, cantidad);
+            System.out.println("Stock actualizado - Nuevo stock: " + producto.getStock());
             return ResponseEntity.ok(producto);
-        } catch (Exception e) {            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            System.out.println("ERROR en restar stock: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
         }
     }
     

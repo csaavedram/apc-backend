@@ -8,9 +8,9 @@ public class Inventario {
     private Long inventarioId;
     @ManyToOne
     @JoinColumn(name = "productoId")
-    private Producto producto;
-    private Integer cantidad;
+    private Producto producto;    private Integer cantidad;
     private String tipo;
+    private String numeroSerie; // Nuevo campo para número de serie/lote
     @Column(name = "datecreated")
     private java.util.Date dateCreated;
     public Long getInventarioId() {
@@ -39,9 +39,16 @@ public class Inventario {
     }
     public Producto getProducto() {
         return producto;
-    }
-    public void setProducto(Producto producto) {
+    }    public void setProducto(Producto producto) {
         this.producto = producto;
+    }
+
+    public String getNumeroSerie() {
+        return numeroSerie;
+    }
+
+    public void setNumeroSerie(String numeroSerie) {
+        this.numeroSerie = numeroSerie;
     }
 
     public Inventario(){

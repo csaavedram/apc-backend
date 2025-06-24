@@ -40,6 +40,12 @@ public class ProductoSerie {
     private Date fechaVenta; // Se establece cuando se vende
     
     private String observaciones;
+    
+    @Column(name = "cantidadOriginal")
+    private Integer cantidadOriginal; // Cantidad original del lote antes de ventas
+    
+    @Column(name = "cantidadVendida")
+    private Integer cantidadVendida = 0; // Cantidad total vendida de este lote
 
     // Constructor vacío
     public ProductoSerie() {
@@ -135,6 +141,22 @@ public class ProductoSerie {
 
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
+    }
+
+    public Integer getCantidadOriginal() {
+        return cantidadOriginal;
+    }
+
+    public void setCantidadOriginal(Integer cantidadOriginal) {
+        this.cantidadOriginal = cantidadOriginal;
+    }
+
+    public Integer getCantidadVendida() {
+        return cantidadVendida;
+    }
+
+    public void setCantidadVendida(Integer cantidadVendida) {
+        this.cantidadVendida = cantidadVendida;
     }
 
     // Método para verificar si está vencido

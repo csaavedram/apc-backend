@@ -52,11 +52,9 @@ public class OrdersController {
         ordersService.pagarParcialmenteOrden(orderId);
         Orders order = ordersService.obtenerOrder(orderId);
         return ResponseEntity.ok(order);
-    }
-
-    @PatchMapping("/atender/{orderId}")
+    }    @PatchMapping("/atender/{orderId}")
     public void atenderOrder(@PathVariable("orderId") Long orderId, @RequestBody AtenderOrderDTO atenderOrderDTO) {
-        ordersService.atenderOrder(orderId, atenderOrderDTO.getPreciocli());
+        ordersService.atenderOrder(orderId, atenderOrderDTO.getPreciocli(), atenderOrderDTO.getTotalPrice());
     }
 
     @PatchMapping("/rechazar/{orderId}")

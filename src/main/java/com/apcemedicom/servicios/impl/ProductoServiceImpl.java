@@ -37,19 +37,30 @@ public class ProductoServiceImpl implements ProductoService {
         producto.setStock(producto.getStock() + cantidad);
         return productoRepository.save(producto);
     }
-    
-    @Override
+      @Override
     public Producto restarStock(Long productoId, Integer cantidad) {
+        System.out.println("=== RESTAR STOCK SERVICE LLAMADO ===");
+        System.out.println("ProductoId: " + productoId + ", Cantidad: " + cantidad);
+        
         Producto producto = obtenerProducto(productoId);
+        System.out.println("Producto encontrado: " + producto.getNombreProducto() + ", Stock actual: " + producto.getStock());
+        
         if (producto.getStock() == null) {
             producto.setStock(0);
         }
         
         if (producto.getStock() < cantidad) {
+            System.out.println("ERROR: Stock insuficiente - Stock actual: " + producto.getStock() + ", Cantidad solicitada: " + cantidad);
             throw new RuntimeException("Stock insuficiente. Stock actual: " + producto.getStock() + ", cantidad solicitada: " + cantidad);
         }
         
-        producto.setStock(producto.getStock() - cantidad);
-        return productoRepository.save(producto);
+        Integer nuevoStock = producto.getStock() - cantidad;
+        producto.setStock(nuevoStock);
+        System.out.println("Actualizando stock de " + producto.getStock() + " a " + nuevoStock);
+        
+        Producto productoActualizado = productoRepository.save(producto);
+        System.out.println("Stock actualizado correctamente - Nuevo stock: " + productoActualizado.getStock());
+        
+        return productoActualizado;
     }
 }

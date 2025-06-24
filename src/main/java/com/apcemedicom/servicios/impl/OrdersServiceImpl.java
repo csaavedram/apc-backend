@@ -32,12 +32,13 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     public List<Orders> obtenerOrdersPorUsuario(Long id) {
         return ordersRepository.findByUserId(id);
-    }
-
-    @Override
-    public void atenderOrder(Long orderId, Double preciocli) {
+    }    @Override
+    public void atenderOrder(Long orderId, Double preciocli, Double totalPrice) {
         ordersRepository.findById(orderId).ifPresent(order -> {
             order.setPreciocli(preciocli);
+            if (totalPrice != null) {
+                order.setTotalPrice(totalPrice); // Actualizar también el totalPrice
+            }
             order.setStatus("Atendido");
             ordersRepository.save(order);
         });

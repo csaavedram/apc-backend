@@ -24,8 +24,10 @@ public class FacturaDetalle {
   @JoinColumn(name = "facturaId")
   private Factura factura;
   @Column(name = "createdAt")
-  private java.util.Date createdAt;
-  private String tipoServicio;
+  private java.util.Date createdAt;  private String tipoServicio;
+  // Campo para almacenar números de serie/lote como texto separado por comas
+  @Column(columnDefinition = "TEXT")
+  private String numerosSerie;
   // Relación con números de serie asignados a esta factura
   @OneToMany(mappedBy = "facturaDetalle", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JsonIgnore
@@ -47,6 +49,9 @@ public class FacturaDetalle {
   public Date getCreatedAt() { return createdAt; }
   public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }  public String getTipoServicio() { return tipoServicio; }
   public void setTipoServicio(String tipoServicio) { this.tipoServicio = tipoServicio; }
+  
+  public String getNumerosSerie() { return numerosSerie; }
+  public void setNumerosSerie(String numerosSerie) { this.numerosSerie = numerosSerie; }
   
   public List<ProductoSerie> getNumerosSerieAsignados() {
     return numerosSerieAsignados;

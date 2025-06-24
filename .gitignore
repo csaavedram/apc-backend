@@ -85,3 +85,5 @@ src/main/resources/application.properties
 # Ignorar archivos generados
 target/
 *.jar
+uploads/*.png
+uploads/*.jpg
